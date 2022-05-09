@@ -1,13 +1,13 @@
 <?php
 
-namespace log;
+namespace logger;
 
 use Psr\Log\AbstractLogger;
 
 
 class Logger extends AbstractLogger
 {
-    private function write($logDate, $logLevel, $message, array $context = []): void
+    private function write($logDate, $logLevel, $message, array $context = array())
     {
         $filePath = __DIR__. '/';
         $fileName = 'log.txt';
@@ -16,7 +16,7 @@ class Logger extends AbstractLogger
         file_put_contents($filePath . $fileName,$logStr, FILE_APPEND );
     }
 
-    private function format($logDate, $logLevel, $message, array $context = []): array
+    private function format($logDate, $logLevel, $message, array $context = array())
     {
         $logInfo = [];
         $logInfo['logDate'] = $logDate;
@@ -26,16 +26,13 @@ class Logger extends AbstractLogger
         return $logInfo;
     }
 
-    public function log($level, \Stringable|string $message, array $context = []): void
+    public function log($level, $message, array $context = array())
     {
         $logDate = date('Y-m-d H:i:s');
         try {
-            $this->write($logDate, $level, $message, $context = []);
+            $this->write($logDate, $level, $message, $context);
         } catch (\Exception $exception) {
             echo $exception ->getMessage();
         }
     }
-
-
-
-}
+}        
